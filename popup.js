@@ -12,3 +12,26 @@ document.getElementById('toggleBounce').addEventListener('click', () => {
       });
     });
   });
+
+  document.getElementById('imageUrl').addEventListener('change', updateSettings);
+  document.getElementById('speed').addEventListener('change', updateSettings);
+  document.getElementById('size').addEventListener('change', updateSettings);
+  
+  document.getElementById('toggleBounce').addEventListener('click', () => {
+    sendMessage({ toggle: true });
+  });
+  
+  function updateSettings() {
+    sendMessage({
+      imageUrl: document.getElementById('imageUrl').value,
+      speed: parseInt(document.getElementById('speed').value),
+      size: parseInt(document.getElementById('size').value)
+    });
+  }
+  
+  function sendMessage(data) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, data);
+    });
+  }
+  

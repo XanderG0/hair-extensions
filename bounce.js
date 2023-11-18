@@ -61,3 +61,29 @@ function removeBouncingImage() {
   img = null;
   bouncing = false;
 }
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.toggle) {
+      if (!bouncing) {
+        createBouncingImage(request.imageUrl, request.speed, request.size);
+      } else {
+        removeBouncingImage();
+      }
+    } else {
+      updateBouncingImage(request.imageUrl, request.speed, request.size);
+    }
+  });
+  
+  function updateBouncingImage(src, speed, sizePercentage) {
+    if (!img) return;
+  
+    img.src = src;
+    img.style.width = `${sizePercentage}%`;
+  
+    const imageSize = (sizePercentage / 100) * window.innerWidth;
+    dx = speed;
+    dy = speed;
+  
+    // Re-adjust the position if the image size has significantly changed
+    x = Math.min(x, window.innerWidth - imageSize);
+    y = Math.min(y, window.innerHeight - imageSize);
+  }
