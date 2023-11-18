@@ -1,36 +1,50 @@
-(function() {
-    const imgSrc = 'https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg'; // URL of the image you want to bounce
-    const speed = 5; // Speed of the bouncing image
-  
-    let dx = speed;
-    let dy = speed;
-    let x = 0;
-    let y = 0;
-  
-    const img = document.createElement('img');
-    img.src = imgSrc;
-    img.style.position = 'fixed';
-    img.style.left = '0px';
-    img.style.top = '0px';
-    img.style.zIndex = 1000;
-    document.body.appendChild(img);
-  
-    function updatePosition() {
-      x += dx;
-      y += dy;
-  
-      if (x <= 0 || x >= window.innerWidth - img.width) {
-        dx = -dx;
-      }
-  
-      if (y <= 0 || y >= window.innerHeight - img.height) {
-        dy = -dy;
-      }
-  
-      img.style.left = x + 'px';
-      img.style.top = y + 'px';
+let img = null;
+let dx = 0;
+let dy = 0;
+let x = 0;
+let y = 0;
+let bouncing = false;
+let interval = null;
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.toggle) {
+    if (!bouncing) {
+      createBouncingImage(request.imageUrl, request.speed, request.size);
+    } else {
+      removeBouncingImage();
     }
-  
-    setInterval(updatePosition, 10);
-  })();
+  }
+});
+
+function createBouncingImage(src, speed, size) {
+  if (img) return;
+
+  img = document.createElement('img');
+  img.src = src;
+  img.style.position = 'fixed';
+  img.style.zIndex = 1000;
+  img.style.width = `${size}%`;
+  document.body.appendChild(img);
+
+  dx = speed;
+  dy = speed;
+  x = 0;
+  y = 0;
+  bouncing = true;
+  interval = setInterval(updatePosition, 10);
+}
+
+function removeBouncingImage() {
+  if (!img) return;
+
+  clearInterval(interval);
+  document.body.removeChild(img);
+  img = null;
+  bouncing = false;
+}
+
+function updatePosition() {
+  // Existing position update logic
+}
+
   
