@@ -16,22 +16,41 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   }
 });
 
-function createBouncingImage(src, speed, size) {
+function createBouncingImage(src, speed, sizePercentage) {
   if (img) return;
 
   img = document.createElement('img');
   img.src = src;
   img.style.position = 'fixed';
+  img.style.left = '0px';
+  img.style.top = '0px';
   img.style.zIndex = 1000;
-  img.style.width = `${size}%`;
+  img.style.width = `${sizePercentage}%`;
   document.body.appendChild(img);
 
+  const imageSize = (sizePercentage / 100) * window.innerWidth;
   dx = speed;
   dy = speed;
   x = 0;
   y = 0;
   bouncing = true;
   interval = setInterval(updatePosition, 10);
+
+  function updatePosition() {
+    x += dx;
+    y += dy;
+
+    if (x <= 0 || x >= window.innerWidth - imageSize) {
+      dx = -dx;
+    }
+
+    if (y <= 0 || y >= window.innerHeight - imageSize) {
+      dy = -dy;
+    }
+
+    img.style.left = x + 'px';
+    img.style.top = y + 'px';
+  }
 }
 
 function removeBouncingImage() {
@@ -42,9 +61,3 @@ function removeBouncingImage() {
   img = null;
   bouncing = false;
 }
-
-function updatePosition() {
-  // Existing position update logic
-}
-
-  
