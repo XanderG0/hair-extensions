@@ -40,17 +40,20 @@ function createBouncingImage(src, speed, sizePercentage) {
     x += dx;
     y += dy;
 
-    if (x <= 0 || x >= window.innerWidth - imageSize) {
-      dx = -dx;
+    const imgWidth = img.offsetWidth;
+    const imgHeight = img.offsetHeight;
+
+    if (x <= 0 || x >= window.innerWidth - imgWidth) {
+        dx = -dx;
     }
 
-    if (y <= 0 || y >= window.innerHeight - imageSize) {
-      dy = -dy;
+    if (y <= 0 || y >= window.innerHeight - imgHeight) {
+        dy = -dy;
     }
 
     img.style.left = x + 'px';
     img.style.top = y + 'px';
-  }
+}
 }
 
 function removeBouncingImage() {
