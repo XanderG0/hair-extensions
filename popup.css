@@ -1,0 +1,38 @@
+body {
+    background-color: #111;
+    color: #0f0;
+    font-family: 'Orbitron', sans-serif;
+    padding: 15px;
+    padding-right: 4px;
+}
+
+input, button {
+    background-color: #222;
+    border: none;
+    border-bottom: 2px solid #0f0;
+    color: #0f0;
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+button {
+    background-color: #0f0;
+    color: #000;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0ff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Add any additional styling you want here */
