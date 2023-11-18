@@ -3,16 +3,18 @@
     "name": "Bouncing Image",
     "description": "This extension bounces an image around your screen.",
     "version": "1.0",
-    "permissions": ["activeTab"],
+    "permissions": [
+        "activeTab",
+        "<all_urls>"
+    ],
     "browser_action": {
-      "default_popup": "popup.html",
-      "default_icon": "icon.png"
+        "default_popup": "popup.html",
+        "default_icon": "icon.png"
     },
     "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["bounce.js"]
-      }
+        {
+            "matches": ["<all_urls>"],
+            "js": ["bounce.js"]
+        }
     ]
-  }
-  
+}

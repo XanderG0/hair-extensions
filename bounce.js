@@ -42,17 +42,29 @@ function createBouncingImage(src, speed, sizePercentage) {
 
     const imgWidth = img.offsetWidth;
     const imgHeight = img.offsetHeight;
+    let colorChanged = false;
 
     if (x <= 0 || x >= window.innerWidth - imgWidth) {
         dx = -dx;
+        colorChanged = true;
     }
 
     if (y <= 0 || y >= window.innerHeight - imgHeight) {
         dy = -dy;
+        colorChanged = true;
+    }
+
+    if (colorChanged) {
+        changeImageColor();
     }
 
     img.style.left = x + 'px';
     img.style.top = y + 'px';
+}
+
+function changeImageColor() {
+    const hueRotation = Math.floor(Math.random() * 360);
+    img.style.filter = `hue-rotate(${hueRotation}deg)`;
 }
 }
 
