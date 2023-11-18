@@ -13,6 +13,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else {
       removeBouncingImage();
     }
+  } else {
+    dx = request.speed;
+    dy = request.speed;
   }
 });
 
