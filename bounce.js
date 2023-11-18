@@ -81,45 +81,7 @@ function removeBouncingImage() {
 }
 
 function doSomethingCrazy() {
-    function insanityFunction() {
-        // Create goat GIF
-        const goatGif = document.createElement('img');
-        goatGif.src = 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/7c079791-e92f-4eda-b1d9-f5cd835d16e1/d4u78aq-c333f2b1-f755-4975-886f-4d459a7fb87b.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzdjMDc5NzkxLWU5MmYtNGVkYS1iMWQ5LWY1Y2Q4MzVkMTZlMVwvZDR1NzhhcS1jMzMzZjJiMS1mNzU1LTQ5NzUtODg2Zi00ZDQ1OWE3ZmI4N2IuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.9tu8d1FJ56wn6VblLafh-iXoKN4B8axVwz0VkmvtOaQ'; // Replace with the actual URL of the goat GIF
-        goatGif.style.position = 'fixed';
-        goatGif.style.bottom = '-100px'; // Start below the screen
-        goatGif.style.left = '0';
-        goatGif.style.zIndex = '1000';
-        document.body.appendChild(goatGif);
-    
-        // Animate goat rising
-        let goatBottom = -100; // Adjust this value based on the actual size of your GIF
-        const riseInterval = setInterval(() => {
-            goatBottom += 1; // Adjust the rising speed as needed
-            goatGif.style.bottom = goatBottom + 'px';
-    
-            // Stop rising when the goat is fully visible
-            if (goatBottom >= 10) { // Adjust based on where you want the goat to start walking
-                clearInterval(riseInterval);
-                walkGoat();
-            }
-        }, 10);
-    
-        // Function to make the goat walk
-        function walkGoat() {
-            let goatPosition = 0;
-            const walkInterval = setInterval(() => {
-                goatPosition += 5; // Adjust the walking speed as needed
-                goatGif.style.left = goatPosition + 'px';
-    
-                // Check if goat has walked off screen, then remove it
-                if (goatPosition > window.innerWidth) {
-                    clearInterval(walkInterval);
-                    document.body.removeChild(goatGif);
-                }
-            }, 50);
-        }
-    }
-    
+    console.log("hi");
 }
 
 function anotherCrazyFunction() {
