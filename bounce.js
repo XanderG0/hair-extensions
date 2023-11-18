@@ -76,3 +76,22 @@ function removeBouncingImage() {
   img = null;
   bouncing = false;
 }
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "insanity") {
+        // Call your insanity functions here
+        doSomethingCrazy();
+        anotherCrazyFunction();
+        // Add as many functions as you like
+    }
+});
+
+function doSomethingCrazy() {
+    // Define what this function does
+}
+
+function anotherCrazyFunction() {
+    // Define what this function does
+}
+
+// ...more functions as needed.
