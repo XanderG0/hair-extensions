@@ -20,10 +20,14 @@ function createBouncingImage(src, speed, sizePercentage) {
   if (img) return;
 
   img = document.createElement('img');
+  const imgWidth = img.offsetWidth;
+  const imgHeight = img.offsetHeight;
+  let calculatedX = Math.floor(Math.random() * window.innerWidth - imgWidth);
+  let calculatedY = Math.floor(Math.random() * window.innerWidth - imgHeight);
   img.src = src;
   img.style.position = 'fixed';
-  img.style.left = '0px';
-  img.style.top = '0px';
+  img.style.left = calculatedX + 'px';
+  img.style.top = calculatedY + 'px';
   img.style.zIndex = 1000;
   img.style.width = `${sizePercentage}%`;
   document.body.appendChild(img);
@@ -31,8 +35,8 @@ function createBouncingImage(src, speed, sizePercentage) {
   const imageSize = (sizePercentage / 100) * window.innerWidth;
   dx = speed;
   dy = speed;
-  x = 0;
-  y = 0;
+  x = calculatedX;
+  y = calculatedY;
   bouncing = true;
   interval = setInterval(updatePosition, 10);
 
@@ -40,8 +44,6 @@ function createBouncingImage(src, speed, sizePercentage) {
     x += dx;
     y += dy;
 
-    const imgWidth = img.offsetWidth;
-    const imgHeight = img.offsetHeight;
     let colorChanged = false;
 
     if (x <= 0 || x >= window.innerWidth - imgWidth) {
