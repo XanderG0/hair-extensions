@@ -20,54 +20,64 @@ function createBouncingImage(src, speed, sizePercentage) {
   if (img) return;
 
   img = document.createElement('img');
-  const imgWidth = img.offsetWidth;
-  const imgHeight = img.offsetHeight;
-  let calculatedX = Math.floor(Math.random() * window.innerWidth - imgWidth);
-  let calculatedY = Math.floor(Math.random() * window.innerWidth - imgHeight);
+  img.onload = function() {
+      // Image dimensions are available after it's loaded
+      const imgWidth = img.offsetWidth;
+      const imgHeight = img.offsetHeight;
+
+      // Correct initial position calculation
+      let calculatedX = Math.floor(Math.random() * (window.innerWidth - imgWidth));
+      let calculatedY = Math.floor(Math.random() * (window.innerHeight - imgHeight));
+      
+      // Set initial position
+      img.style.left = calculatedX + 'px';
+      img.style.top = calculatedY + 'px';
+
+      // Set up movement
+      dx = speed;
+      dy = speed;
+      x = calculatedX;
+      y = calculatedY;
+      bouncing = true;
+      interval = setInterval(updatePosition, 10);
+  };
+
   img.src = src;
   img.style.position = 'fixed';
-  img.style.left = calculatedX + 'px';
-  img.style.top = calculatedY + 'px';
   img.style.zIndex = 1000;
   img.style.width = `${sizePercentage}%`;
   document.body.appendChild(img);
+}
 
-  const imageSize = (sizePercentage / 100) * window.innerWidth;
-  dx = speed;
-  dy = speed;
-  x = calculatedX;
-  y = calculatedY;
-  bouncing = true;
-  interval = setInterval(updatePosition, 10);
+function updatePosition() {
+  x += dx;
+  y += dy;
 
-  function updatePosition() {
-    x += dx;
-    y += dy;
+  let colorChanged = false;
+  const imgWidth = img.offsetWidth;
+  const imgHeight = img.offsetHeight;
 
-    let colorChanged = false;
+  if (x <= 0 || x >= window.innerWidth - imgWidth) {
+      dx = -dx;
+      colorChanged = true;
+  }
 
-    if (x <= 0 || x >= window.innerWidth - imgWidth) {
-        dx = -dx;
-        colorChanged = true;
-    }
+  if (y <= 0 || y >= window.innerHeight - imgHeight) {
+      dy = -dy;
+      colorChanged = true;
+  }
 
-    if (y <= 0 || y >= window.innerHeight - imgHeight) {
-        dy = -dy;
-        colorChanged = true;
-    }
+  if (colorChanged) {
+      changeImageColor();
+  }
 
-    if (colorChanged) {
-        changeImageColor();
-    }
-
-    img.style.left = x + 'px';
-    img.style.top = y + 'px';
+  img.style.left = x + 'px';
+  img.style.top = y + 'px';
 }
 
 function changeImageColor() {
-    const hueRotation = Math.floor(Math.random() * 360);
-    img.style.filter = `hue-rotate(${hueRotation}deg)`;
-}
+  const hueRotation = Math.floor(Math.random() * 360);
+  img.style.filter = `hue-rotate(${hueRotation}deg)`;
 }
 
 function removeBouncingImage() {
