@@ -16,6 +16,10 @@ input, button {
     width: 100%;
 }
 
+input {
+    width: 185px;
+}
+
 button {
     background-color: #0f0;
     color: #000;
