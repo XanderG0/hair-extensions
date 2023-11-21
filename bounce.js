@@ -53,28 +53,55 @@ function updatePosition() {
   x += dx;
   y += dy;
 
+  let colorChanged = false;
+  const imgWidth = img.offsetWidth;
+  const imgHeight = img.offsetHeight;
+
   let hitCorner = false;
 
-  if (x <= 0 || x >= window.innerWidth - img.offsetWidth) {
-      dx = -dx;
-      if (y <= 0 || y >= window.innerHeight - img.offsetHeight) {
-          hitCorner = true; // Image hits a corner
-      }
+  if (x <= 0 || x >= window.innerWidth - imgWidth) {
+    if(y <= 0 || y >= window.innerHeight - imgHeight) {
+      hitCorner = true;
+    }
+
+    dx = -dx;
+    colorChanged = true;
   }
 
-  if (y <= 0 || y >= window.innerHeight - img.offsetHeight) {
-      dy = -dy;
+  if (y <= 0 || y >= window.innerHeight - imgHeight) {
+    if (x <= 0 || x >= window.innerWidth - imgWidth) {
+      hitCorner = true;
+    }
+
+    dy = -dy;
+    colorChanged = true;
   }
 
-  if (hitCorner) {
-      showConfetti(x, y);
+  if(hitCorner) {
+    showConfetti(x, y);
+  }
+
+  if (colorChanged) {
+      changeImageColor();
   }
 
   img.style.left = x + 'px';
   img.style.top = y + 'px';
 }
 
+function changeImageColor() {
+  const hueRotation = Math.floor(Math.random() * 360);
+  img.style.filter = `hue-rotate(${hueRotation}deg)`;
+}
 
+function removeBouncingImage() {
+  if (!img) return;
+
+  clearInterval(interval);
+  document.body.removeChild(img);
+  img = null;
+  bouncing = false;
+}
 
 function showConfetti(x, y) {
   const confettiCount = 20; // Number of confetti pieces
