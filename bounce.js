@@ -53,38 +53,59 @@ function updatePosition() {
   x += dx;
   y += dy;
 
-  let colorChanged = false;
-  const imgWidth = img.offsetWidth;
-  const imgHeight = img.offsetHeight;
+  let hitCorner = false;
 
-  if (x <= 0 || x >= window.innerWidth - imgWidth) {
+  if (x <= 0 || x >= window.innerWidth - img.offsetWidth) {
       dx = -dx;
-      colorChanged = true;
+      if (y <= 0 || y >= window.innerHeight - img.offsetHeight) {
+          hitCorner = true; // Image hits a corner
+      }
   }
 
-  if (y <= 0 || y >= window.innerHeight - imgHeight) {
+  if (y <= 0 || y >= window.innerHeight - img.offsetHeight) {
       dy = -dy;
-      colorChanged = true;
   }
 
-  if (colorChanged) {
-      changeImageColor();
+  if (hitCorner) {
+      showConfetti(x, y);
   }
 
   img.style.left = x + 'px';
   img.style.top = y + 'px';
 }
 
-function changeImageColor() {
-  const hueRotation = Math.floor(Math.random() * 360);
-  img.style.filter = `hue-rotate(${hueRotation}deg)`;
-}
 
-function removeBouncingImage() {
-  if (!img) return;
 
-  clearInterval(interval);
-  document.body.removeChild(img);
-  img = null;
-  bouncing = false;
+function showConfetti(x, y) {
+  const confettiCount = 20; // Number of confetti pieces
+  const confettiDuration = 1500; // Duration in milliseconds
+
+  for (let i = 0; i < confettiCount; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.position = 'fixed';
+      confetti.style.left = x + 'px';
+      confetti.style.top = y + 'px';
+      confetti.style.width = '5px';
+      confetti.style.height = '5px';
+      confetti.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16); // Random color
+      confetti.style.zIndex = 1001;
+      document.body.appendChild(confetti);
+
+      // Randomize the confetti movement
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * 50; // Max distance
+      const endX = x + distance * Math.cos(angle);
+      const endY = y + distance * Math.sin(angle);
+      
+      // Animate and remove the confetti
+      confetti.animate([
+          { transform: `translate(0, 0)`, opacity: 1 },
+          { transform: `translate(${endX - x}px, ${endY - y}px)`, opacity: 0 }
+      ], {
+          duration: confettiDuration,
+          easing: 'ease-out'
+      }).onfinish = () => {
+          document.body.removeChild(confetti);
+      };
+  }
 }
