@@ -110,10 +110,15 @@ function showConfetti(x, y) {
   for (let i = 0; i < confettiCount; i++) {
       const confetti = document.createElement('div');
       confetti.style.position = 'fixed';
-      confetti.style.left = x + 'px';
-      confetti.style.top = y + 'px';
-      confetti.style.width = '5px';
-      confetti.style.height = '5px';
+      
+      // Adjust the starting position of the confetti
+      const startX = x + (img.offsetWidth / 2);
+      const startY = y + (img.offsetHeight / 2);
+
+      confetti.style.left = startX + 'px';
+      confetti.style.top = startY + 'px';
+      confetti.style.width = '30px';
+      confetti.style.height = '30px';
       confetti.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16); // Random color
       confetti.style.zIndex = 1001;
       document.body.appendChild(confetti);
@@ -121,13 +126,13 @@ function showConfetti(x, y) {
       // Randomize the confetti movement
       const angle = Math.random() * Math.PI * 2;
       const distance = Math.random() * 50; // Max distance
-      const endX = x + distance * Math.cos(angle);
-      const endY = y + distance * Math.sin(angle);
+      const endX = distance * Math.cos(angle);
+      const endY = distance * Math.sin(angle);
       
       // Animate and remove the confetti
       confetti.animate([
           { transform: `translate(0, 0)`, opacity: 1 },
-          { transform: `translate(${endX - x}px, ${endY - y}px)`, opacity: 0 }
+          { transform: `translate(${endX}px, ${endY}px)`, opacity: 0 }
       ], {
           duration: confettiDuration,
           easing: 'ease-out'
